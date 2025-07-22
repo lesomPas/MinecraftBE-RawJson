@@ -48,8 +48,6 @@ def process(dictionary: dict) -> dict:
         raise ValueError("dictionary error")
     return inRawtext(dictionary["rawtext"])
 
-Rawtext.process = process
-
 def main():
     with open("testing.json", "r", encoding="utf-8") as js:
         data = json.load(js)
