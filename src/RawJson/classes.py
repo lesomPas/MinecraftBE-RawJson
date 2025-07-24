@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from utils import is_single_string_value, is_single_dictionary_value, is_string_value
+from .utils import is_single_string_value, is_single_dictionary_value, is_string_value
 from pprint import pformat
 from typing import Union, List, Dict, Any
 

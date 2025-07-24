@@ -1,4 +1,4 @@
-from classes import Text, Score, Selector, Translate, Rawtext, RawComponent
+from .classes import Text, Score, Selector, Translate, Rawtext, RawComponent
 from pprint import pprint
 import json
 
