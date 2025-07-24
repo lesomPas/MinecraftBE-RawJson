@@ -1,4 +1,4 @@
-from classes import RawText, RawScore, RawSelector, RawTranslate, Rawtext, RawComponent
+from classes import Text, Score, Selector, Translate, Rawtext, RawComponent
 from pprint import pprint
 import json
 
@@ -29,13 +29,13 @@ def inRawtext(sequence: list[dict]) -> list[RawComponent]:
             sentence = arrayProcessing(sentence)
 
         if "text" in sentence:
-            results.append(RawText(sentence))
+            results.append(Text.toText(sentence))
         elif "score" in sentence:
-            results.append(RawScore(sentence))
+            results.append(Score.toScore(sentence))
         elif "selector" in sentence:
-            results.append(RawSelector(sentence))
+            results.append(Selector.toSelector(sentence))
         elif "translate" in sentence:
-            results.append(RawTranslate(sentence))
+            results.append(Translate.toTranslate(sentence))
         elif "rawtext" in sentence:
             results.append(Rawtext(sentence))
         else:
@@ -54,6 +54,7 @@ def main():
         data = json.load(js)
     data = Rawtext(data)
     pprint(data)
+    pprint(data.toDictionary())
 
 if __name__ == '__main__':
     main()

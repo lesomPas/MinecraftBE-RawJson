@@ -20,7 +20,7 @@ def is_single_string_value(d: dict, key) -> bool:
 
 def is_single_dictionary_value(d: dict, key) -> bool:
     """
-    检查字典是否有且只有一个键，且对应的值是字符串
+    检查字典是否有且只有一个键，且对应的值是字典
 
     argument:
         d: 待检查的字典
