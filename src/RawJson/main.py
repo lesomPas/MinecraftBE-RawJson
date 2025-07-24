@@ -48,6 +48,9 @@ def process(dictionary: dict) -> dict:
         raise ValueError("dictionary error")
     return inRawtext(dictionary["rawtext"])
 
+def load(file) -> Rawtext:
+    return Rawtext(json.load(file))
+
 def main():
     Rawtext.process = staticmethod(process)
     with open("testing.json", "r", encoding="utf-8") as js:
