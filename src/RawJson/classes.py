@@ -66,6 +66,7 @@ class TranslateBuilder(object):
         self.translate = translate
 
     def build(self, *args) -> Rawtext:
+        args = list(args)
         if args == []:
             return self.raw.add(Translate(self.translate))
 
@@ -76,6 +77,7 @@ class TranslateBuilder(object):
         return self.raw.add(Translate(self.translate, withraw))
 
     def strBuild(self, *args) -> Rawtext:
+        args = list(args)
         if args == []:
             return self.raw.add(Translate(self.translate))
 
@@ -204,10 +206,13 @@ class Selector(RawComponent):
 
 class Translate(RawComponent):
     def __init__(self, translate: str, with_content: Union[List[str], Rawtext, None] = None) -> None:
+        if not isinstance(translate, str):
+            raise TypeError("'translate' must be a string")
+
         if with_content is not None:
             if not (isinstance(with_content, (list, Rawtext))):
                 raise TypeError("'with' must be list of strings or Rawtext")
-            
+
             if isinstance(with_content, list) and not all(isinstance(i, str) for i in with_content):
                 raise TypeError("All items in 'with' list must be strings")
 
