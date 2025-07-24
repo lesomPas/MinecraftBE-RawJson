@@ -66,15 +66,29 @@ class TranslateBuilder(object):
         self.translate = translate
 
     def build(self, *args) -> Rawtext:
+        if args == []:
+            return self.raw.add(Translate(self.translate))
+
         if any(not isinstance(i, RawComponent) for i in args):
             raise ValueError("build failed")
-        withraw = Rawtext().addAll(args)
 
-        self.raw.add(Translate(self.translate, withraw))
-        return self.raw
+        withraw = Rawtext().addAll(args)
+        return self.raw.add(Translate(self.translate, withraw))
+
+    def strBuild(self, *args) -> Rawtext:
+        if args == []:
+            return self.raw.add(Translate(self.translate))
+
+        if any(not isinstance(i, str) for i in args):
+            raise ValueError("build failed")
+
+        return self.raw.add(Translate(self.translate, args))
 
     def sequenceBuild(self, sequence: list[RawComponent]) -> Rawtext:
         return self.build(*sequence)
+
+    def sequenceStrBuild(self, sequence: list[str]) -> Rawtext:
+        return self.strBuild(*sequence)
 
 
 class Text(RawComponent):
