@@ -27,22 +27,54 @@ class Rawtext(RawComponent):
     process = None  # Placeholder for processing function
 
     def __init__(self, dictionary: dict = {}) -> None:
-        self.data = Rawtext.process(dictionary) if dictionary != {} else []# if self.process else dictionary
+        self.data = Rawtext.process(dictionary) if dictionary != {} else [] # if self.process else dictionary
 
     def toDictionary(self) -> dict:
         return {
             "rawtext": [i.toDictionary() for i in self.data]
         }
 
-    def add(self, obj: RawComponent) -> None:
-        if isinstance(obj, RawComponent):
+    def add(self, *args) -> 'Rawtext':
+        for obj in args:
+            if not isinstance(obj, RawComponent):
+                raise TypeError("arguments must be rawcomponent")
             self.data.append(obj)
+        return self
+
+    def addAll(self, sequence: list[RawComponent]) -> 'Rawtext':
+        return self.add(*sequence)
+
+    def translate(self, translate: str) -> 'TranslateBuilder':
+        if not isinstance(translate, str):
+            raise TypeError("build failed")
+
+        return TranslateBuilder(self, translate)
 
     def __str__(self) -> str:
         return pformat(self.data)
 
     def __repr__(self) -> str:
         return f"-rawtext::{str(self)}"
+
+
+class TranslateBuilder(object):
+    def __init__(self, raw: Rawtext, translate: str) -> None:
+        if not isinstance(raw, Rawtext) or not isinstance(translate, str):
+            raise TypeError("build failed")
+
+        self.raw = raw
+        self.translate = translate
+
+    def build(self, *args) -> Rawtext:
+        if any(not isinstance(i, RawComponent) for i in args):
+            raise ValueError("build failed")
+        withraw = Rawtext().addAll(args)
+
+        self.raw.add(Translate(self.translate, withraw))
+        return self.raw
+
+    def sequenceBuild(self, sequence: list[RawComponent]) -> Rawtext:
+        return self.build(*sequence)
 
 
 class Text(RawComponent):
