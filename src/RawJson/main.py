@@ -28,7 +28,9 @@ def inRawtext(sequence: list[dict]) -> list[RawComponent]:
         if len(sentence) > 1 and not ("translate" in sentence and "with" in sentence):
             sentence = arrayProcessing(sentence)
 
-        if "text" in sentence:
+        if sentence == {}:
+            continue
+        elif "text" in sentence:
             results.append(Text.toText(sentence))
         elif "score" in sentence:
             results.append(Score.toScore(sentence))
